@@ -67,17 +67,6 @@ interface Passenger {
   seat: string;
 }
 
-interface Flight {
-  from: string;
-  to: string;
-  date: string;
-}
-
-interface BookingData {
-  passengers: Passenger[];
-  flight: Flight;
-  selectedSeat: string | null;
-}
 
 const BoardingPassList: React.FC = () => {
   const bookingContext = useContext(BookingContext);

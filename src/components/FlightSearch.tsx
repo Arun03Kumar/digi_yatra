@@ -1,10 +1,9 @@
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { BookingContext } from "../contexts/BookingContext";
 import { Card, CardContent } from "./ui/card";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import { CalendarIcon, SearchIcon, RefreshCw } from "lucide-react";
+import { SearchIcon, RefreshCw } from "lucide-react";
 import FlightCard from "./FlightCard";
 
 const sampleFlights = [
@@ -88,13 +87,13 @@ function FlightSearch() {
   const [date, setDate] = useState("2025-03-16");
   const [dropdownType, setDropdownType] = useState<any>(null);
   const [showFlight, setShowFlight] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery] = useState("");
 
   const [isFocusedFrom, setIsFocusedFrom] = useState(false);
   const [isFocusedTo, setIsFocusedTo] = useState(false);
 
   const { setBookingData } = useContext<any>(BookingContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = (e:any) => {
     e.preventDefault();
