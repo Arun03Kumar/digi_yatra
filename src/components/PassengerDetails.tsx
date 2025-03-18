@@ -1,4 +1,4 @@
-import React, { useState, useContext, useRef } from "react";
+import React, { useState, useContext, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookingContext } from "../contexts/BookingContext";
 import Webcam from "react-webcam";
@@ -6,33 +6,41 @@ import { XCircle } from "lucide-react";
 import { Input } from "./ui/input";
 
 function PassengerDetails() {
-  const { setBookingData } = useContext(BookingContext);
+  const { setBookingData } = useContext<any>(BookingContext);
   const navigate = useNavigate();
-  const [passengers, setPassengers] = useState([
+  const [passengers, setPassengers] = useState<any>([
     { id: 1, firstName: "", lastName: "", email: "", faces: [] },
   ]);
   const [showCaptureModal, setShowCaptureModal] = useState(false);
   const [showImageGallery, setShowImageGallery] = useState(false);
-  const [currentPassengerIndex, setCurrentPassengerIndex] = useState(null);
+  const [currentPassengerIndex, setCurrentPassengerIndex] = useState<any>(null);
   const [captureProgress, setCaptureProgress] = useState(0);
-  const webcamRef = useRef(null);
-  const captureIntervalRef = useRef(null);
+  const webcamRef = useRef<any>(null);
+  const captureIntervalRef = useRef<any>(null);
 
   const startCapture = () => {
     let captureCount = 0;
     setCaptureProgress(0);
 
+    if (!webcamRef.current) {
+      console.error("Webcam is not available.");
+      return;
+    }
+
     captureIntervalRef.current = setInterval(() => {
       if (captureCount < 10) {
         const imageSrc = webcamRef.current.getScreenshot();
-        setPassengers((prev) => {
-          const updatedPassengers = [...prev];
-          updatedPassengers[currentPassengerIndex].faces = [
-            ...updatedPassengers[currentPassengerIndex].faces,
-            imageSrc,
-          ];
-          return updatedPassengers;
-        });
+        if(imageSrc) {
+          setPassengers((prev:any) => {
+            const updatedPassengers = [...prev];
+            updatedPassengers[currentPassengerIndex].faces = [
+              ...updatedPassengers[currentPassengerIndex].faces,
+              imageSrc,
+            ];
+            return updatedPassengers;
+          });
+        }
+        
 
         captureCount++;
         setCaptureProgress((captureCount / 10) * 100);
@@ -42,23 +50,32 @@ function PassengerDetails() {
     }, 500);
   };
 
+  useEffect(() => {
+    return () => {
+      if (captureIntervalRef.current) {
+        clearInterval(captureIntervalRef.current);
+        captureIntervalRef.current = null;
+      }
+    };
+  }, []);
+
   const stopCapture = () => {
     clearInterval(captureIntervalRef.current);
     setShowCaptureModal(false);
   };
 
-  const deleteImage = (passengerIndex, imageIndex) => {
-    setPassengers((prev) => {
+  const deleteImage = (passengerIndex:any, imageIndex:any) => {
+    setPassengers((prev:any) => {
       const updatedPassengers = [...prev];
       updatedPassengers[passengerIndex].faces = updatedPassengers[
         passengerIndex
-      ].faces.filter((_, i) => i !== imageIndex);
+      ].faces.filter((_:any, i:any) => i !== imageIndex);
       return updatedPassengers;
     });
   };
 
   const addPassenger = () => {
-    setPassengers((prev) => [
+    setPassengers((prev:any) => [
       ...prev,
       {
         id: prev.length + 1,
@@ -70,21 +87,21 @@ function PassengerDetails() {
     ]);
   };
 
-  const removePassenger = (index) => {
-    setPassengers((prev) => prev.filter((_, i) => i !== index));
+  const removePassenger = (index:any) => {
+    setPassengers((prev:any) => prev.filter((_:any, i:any) => i !== index));
   };
 
-  const updatePassenger = (index, key, value) => {
-    setPassengers((prev) => {
+  const updatePassenger = (index:any, key:any, value:any) => {
+    setPassengers((prev:any) => {
       const updatedPassengers = [...prev];
       updatedPassengers[index][key] = value;
       return updatedPassengers;
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
-    setBookingData((prev) => ({ ...prev, passengers }));
+    setBookingData((prev:any) => ({ ...prev, passengers }));
     navigate("/seat-selection");
   };
 
@@ -92,7 +109,7 @@ function PassengerDetails() {
     <div className="flex flex-col items-center mt-5">
       <h2 className="text-xl font-bold mb-4">Passenger Details</h2>
       <form onSubmit={handleSubmit} className="w-full max-w-4xl">
-        {passengers.map((passenger, index) => (
+        {passengers.map((passenger:any, index:any) => (
           <div
             key={passenger.id}
             className="flex items-center justify-stretch p-4 rounded-lg shadow-md mb-4"
@@ -231,7 +248,7 @@ function PassengerDetails() {
             <h3 className="text-lg font-bold mb-2">Captured Images</h3>
             <div className="grid grid-cols-3 gap-2">
               {passengers[currentPassengerIndex]?.faces.map(
-                (face, imgIndex) => (
+                (face:any, imgIndex:any) => (
                   <div key={imgIndex} className="relative">
                     <img
                       src={face}

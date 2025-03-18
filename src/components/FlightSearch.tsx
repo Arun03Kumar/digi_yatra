@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookingContext } from "../contexts/BookingContext";
 import { Card, CardContent } from "./ui/card";
@@ -86,19 +86,19 @@ function FlightSearch() {
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const [date, setDate] = useState("2025-03-16");
-  const [dropdownType, setDropdownType] = useState(null);
+  const [dropdownType, setDropdownType] = useState<any>(null);
   const [showFlight, setShowFlight] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
 
   const [isFocusedFrom, setIsFocusedFrom] = useState(false);
   const [isFocusedTo, setIsFocusedTo] = useState(false);
 
-  const { setBookingData } = useContext(BookingContext);
+  const { setBookingData } = useContext<any>(BookingContext);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
-    setBookingData((prev) => ({ ...prev, flight: { from, to, date } }));
+    setBookingData((prev: any) => ({ ...prev, flight: { from, to, date } }));
     // navigate("/flight-options");
     setShowFlight(true);
   };
@@ -108,7 +108,7 @@ function FlightSearch() {
     setTo(from);
   };
 
-  const selectAirport = (type, code, city) => {
+  const selectAirport = (type:any, code:any, city:any) => {
     if (type === "from") {
       setFrom(`${code} - ${city}`);
       setIsFocusedFrom(true);
@@ -126,7 +126,7 @@ function FlightSearch() {
   );
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event:any) => {
       if (!event.target.closest(".dropdown-container")) {
         setDropdownType(null);
       }

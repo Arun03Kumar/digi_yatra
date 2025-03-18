@@ -1,10 +1,10 @@
-import React, { useState, useContext } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BookingContext } from "../contexts/BookingContext";
 
 const rows = 14;
 const columns = ["A", "B", "C", "D", "E", "F"];
-const seats = [];
+const seats:any = [];
 for (let row = 1; row <= rows; row++) {
   columns.forEach((col) => {
     seats.push(`${row}${col}`);
@@ -12,29 +12,29 @@ for (let row = 1; row <= rows; row++) {
 }
 
 function SeatSelection() {
-  const [selectedSeats, setSelectedSeats] = useState([]);
-  const { bookingData, setBookingData } = useContext(BookingContext);
+  const [selectedSeats, setSelectedSeats] = useState<any>([]);
+  const { bookingData, setBookingData } = useContext<any>(BookingContext);
   const navigate = useNavigate();
 
-  const handleSeatClick = (seat) => {
-    setSelectedSeats((prev) =>
-      prev.includes(seat) ? prev.filter((s) => s !== seat) : [...prev, seat]
+  const handleSeatClick = (seat:any) => {
+    setSelectedSeats((prev:any) =>
+      prev.includes(seat) ? prev.filter((s:any) => s !== seat) : [...prev, seat]
     );
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e:any) => {
     e.preventDefault();
     if (selectedSeats.length !== bookingData.passengers.length) {
       alert("Please select seats equal to the number of passengers.");
       return;
     }
     const updatedPassengers = bookingData.passengers.map(
-      (passenger, index) => ({
+      (passenger:any, index:any) => ({
         ...passenger,
         seat: selectedSeats[index] || "N/A",
       })
     );
-    setBookingData((prev) => ({ ...prev, passengers: updatedPassengers }));
+    setBookingData((prev:any) => ({ ...prev, passengers: updatedPassengers }));
     navigate("/boarding-pass-list");
   };
 
@@ -116,7 +116,7 @@ function SeatSelection() {
           }}
         >
           <div className="grid grid-cols-7 gap-2 mx-auto p-3">
-            {seats.map((seat, index) => {
+            {seats.map((seat:any, index:any) => {
               const row = Math.floor(index / 6);
               const col = index % 6;
 

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,7 +6,6 @@ import {
 } from "react-router-dom";
 import { BookingProvider } from "./contexts/BookingContext";
 import FlightSearch from "./components/FlightSearch";
-import FlightOptions from "./components/FlightOptions";
 import PassengerDetails from "./components/PassengerDetails";
 import SeatSelection from "./components/SeatSelection";
 import BoardingPass from "./components/BoardingPass";

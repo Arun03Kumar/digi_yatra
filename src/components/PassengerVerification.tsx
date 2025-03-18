@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 
 function PassengerVerification() {
   const navigate = useNavigate();
-  const { bookingData } = useContext(BookingContext);
-  const webcamRef = useRef(null);
+  const { bookingData } = useContext<any>(BookingContext);
+  const webcamRef = useRef<any>(null);
   const [loadingModels, setLoadingModels] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState("");
@@ -40,7 +40,7 @@ function PassengerVerification() {
     loadModels();
   }, []);
 
-  const computeDescriptor = async (imgSrc) => {
+  const computeDescriptor = async (imgSrc:any) => {
     // console.log("Creating new image...");
     const img = new Image();
     img.src = imgSrc;
